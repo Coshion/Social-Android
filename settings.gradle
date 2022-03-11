@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Social"
 include ':app'
+include ':Main'
+include ':Main:Home'
+include ':Base'

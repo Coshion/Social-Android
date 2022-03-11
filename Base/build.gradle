@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    api rootProject.ext.dependencies["designx"]
+    api rootProject.ext.dependencies["constraintx"]
+    api 'com.hjq.gson:factory:5.2' //jcenter
+    /**
+     * 库
+     */
+    api rootProject.ext.onion["ext"]
+    api rootProject.ext.onion["fragmentation"]
+    api rootProject.ext.onion["recy"]
+    api rootProject.ext.onion["logger"]
+    api rootProject.ext.onion["glide"]
+//    api rootProject.ext.onion["tab"]
+    api rootProject.ext.onion["http"]
+    api rootProject.ext.onion["toast"]
+    api rootProject.ext.onion["view"]
+
+    api rootProject.ext.dependencies["smartRefresh"]
+    api  'com.scwang.smart:refresh-header-classics:2.0.3'    //经典刷新头
+    api rootProject.ext.dependencies["swipe"]
+
+    /**
+     * 网络框架
+     */
+    api rootProject.ext.dependencies["rxbinding-core"]
+    api rootProject.ext.dependencies["rxpermissions"]
+    api rootProject.ext.dependencies["anko"] //jcenter
+    api rootProject.ext.dependencies["anko-commons"] //jcenter
+    api rootProject.ext.dependencies["statusbar"] //jcenter
+    api 'com.makeramen:roundedimageview:2.3.0'
+    api rootProject.ext.dependencies["anko"] //jcenter
+    api rootProject.ext.dependencies["anko-commons"] //jcenter
+}

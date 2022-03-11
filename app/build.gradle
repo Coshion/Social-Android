@@ -1,6 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android-extensions'
+}
+
+def logger = LOGGER.toBoolean()
+
+kapt {
+    javacOptions {
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
 }
 
 android {
@@ -18,8 +29,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean","logger","${logger}")
         }
     }
     compileOptions {
@@ -29,15 +44,30 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    /**
+     * 依赖注入
+     */
+    //DI
+    api "com.google.dagger:hilt-android:$versions.hiltAndroidVersion"
+    kapt "androidx.hilt:hilt-compiler:$versions.hiltVersion"
+
+    api "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$versions.hiltAndroidVersion"
+    kapt "androidx.room:room-compiler:$versions.roomVersion"
+//    // architecture components
+    api "androidx.fragment:fragment-ktx:$versions.fragmentVersion"
+    api "androidx.lifecycle:lifecycle-extensions:$versions.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycleVersion"
+    api "androidx.room:room-runtime:$versions.roomVersion"
+    api "androidx.room:room-ktx:$versions.roomVersion"
 }
